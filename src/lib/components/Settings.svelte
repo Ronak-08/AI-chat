@@ -14,7 +14,8 @@ let defaultModel = {
   groq: "openai/gpt-oss-120b",
   cerebras: "llama-3.3-70b",
   gemini: "gemini-2.5-flash" ,
-  sambanova: "llama-3.3-70b" ,
+  sambanova: "DeepSeek-V3.1" ,
+  openrouter: "x-ai/grok-4.1-fast:free",
 }
 $effect(() => {
   if (appState.isInitialized) {
