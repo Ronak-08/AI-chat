@@ -5,6 +5,7 @@ A simple **Sveltekit** app with modern material ui to chat with different AI mod
 - Groq
 - Cerebras
 - OpenRouter
+- HuggingFace inference
 - Sambanova <br>
 
 _...More to come_
