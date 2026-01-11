@@ -1,106 +1,71 @@
 <script>
-import { appState } from '$lib/appState.svelte.js';
-import * as Dialog from "$lib/components/ui/dialog";
-import { Label } from "$lib/components/ui/label";
-import { Input } from "$lib/components/ui/input";
-import { Separator } from "$lib/components/ui/separator";
-import { Cpu, Key, MessageSquareText } from 'lucide-svelte';
-    import { onMount } from 'svelte';
+import { appState } from "$lib/appState.svelte";
+let {open = $bindable(false)} = $props();
+import Close from "~icons/material-symbols/close";
+import Button from "../../../../svelte-libYou/dist/components/Button.svelte";
+import { fade } from "svelte/transition";
+import Textfield from "../../../../svelte-libYou/dist/components/Textfield.svelte";
+    import ThemeToggle from "./ThemeToggle.svelte";
+
+let saveTimeout;
 
 
-let open = $derived(appState.isSettingsOpen);
-
-let defaultModel = {
-  groq: "openai/gpt-oss-120b",
-  cerebras: "llama-3.3-70b",
-  gemini: "gemini-2.5-flash" ,
-  sambanova: "DeepSeek-V3.1" ,
-  openrouter: "x-ai/grok-4.1-fast:free",
-}
 $effect(() => {
-  if (appState.isInitialized) {
-    const _track = JSON.stringify(appState.settings);
+  $state.snapshot(appState.settings);
+
+  const timer = setTimeout(() => {
     appState.saveSettings();
-  }
+  }, 300);
+
+  return () => clearTimeout(timer);
 });
 
-onMount(() => {
-  if (!appState.settings.model && appState.settings.provider) {
-    appState.settings.model = defaultModel[appState.settings.provider];
-  }
-})
-
-function handleProviderChange(e) {
-  const selectedProvider = e.currentTarget.value;
-  appState.settings.provider = selectedProvider;
-  appState.settings.model = defaultModel[selectedProvider] || '';
-
-  if (!appState.settings.keys) appState.settings.keys = {};
-
-  if (!appState.settings.keys[selectedProvider]) {
-    appState.settings.keys[selectedProvider] = '';
-  }
+function addKey(model, val) {
+  appState.settings.keys[model] = val;
 }
 
 </script>
 
-<Dialog.Root open={open} onOpenChange={(v) => appState.isSettingsOpen = v}>
-  <Dialog.Content class="sm:max-w-[500px] p-0 gap-0 overflow-hidden border-none shadow-2xl z-100">
+{#if open}
+  <main transition:fade={{duration: 200}} class="fixed z-200 md:w-[40%] md:h-full overflow-y-auto flex flex-col md:m-0 p-5 inset-0 bg-surface-container m-3 rounded-3xl h-[95%]">
+    <header class="flex items-center px-1 justify-between">
+      <h1 class="text-4xl text-on-surface font-bold p-2">Settings</h1>
+      <Button class="size-10" onclick={() => open = false} variant="normal"><Close /></Button>
+    </header>
 
-    <div class="px-6 py-4 border-b bg-muted/50">
-      <Dialog.Title class="text-lg font-semibold tracking-tight">Settings</Dialog.Title>
+    <div class="flex rounded-xl p-2 bg-surface-container-high items-center transition justify-between px-3 mx-3 mt-8">
+      <p class="pl-1 font-medium">Theme</p>
+    <ThemeToggle />
     </div>
 
-    <div class="p-6 space-y-6">
-      <div class="space-y-4 m-2">
-        <div class="grid grid-cols-2 gap-4">
-          <div class="grid gap-2">
-            <Label class="text-xs text-muted-foreground">Provider</Label>
-            <select 
-              value={appState.settings.provider}
-              onchange={() => handleProviderChange(event)}
-              class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-            >
-              <option value="pollinations">Pollinations.ai</option>
-              <option value="cerebras">Cerebras</option>
-              <option value="sambanova">SambaNova</option>
-              <option value="openrouter">OpenRouter (Free)</option>
-              <option value="groq">Groq Cloud</option>
-              <option value="gemini">Google Gemini</option>
-            </select>
-          </div>
-          <div>
-            <Label class="text-xs text-muted-foreground">Model</Label>
-            <Input class="mt-2" bind:value={appState.settings.model} />
-          </div>
-        </div>
+
+    <div class="flex flex-col m-2 mt-8 gap-2">
+      <div class="flex transition hover:rounded-3xl hover:bg-primary-container hover:text-on-primary-container bg-surface-container-high items-center rounded-xl p-3 justify-between">
+        <p class="pl-1 font-medium">Provider</p>
+        <select class="px-3 text-tertiary outline-none w-28 py-1 bg-surface-container-low rounded-full" name="model" bind:value={appState.settings.provider} id="model-selector">
+          <option value="huggingface">HuggingFace</option>
+          <option value="gemini">Gemini</option>
+          <option value="groq">Groq</option>
+          <option value="openrouter">OpenRouter</option>
+          <option value="cerebras">Cerebras</option>
+          <option value="sambanova">Sambanova</option>
+        </select>
       </div>
 
-      <Separator />
+      <div class="flex mx-3 flex-col">
+        <p class="mt-4 mb-2 text-secondary text-sm font-medium">Api Key</p>
+        <Textfield value={appState.settings.keys[appState.settings.provider] || ''} placeholder="sk-292..." class=" w-full text-on-surface p-2" oninput={(e) => addKey(appState.settings.provider, e.target.value)} type="text" />
 
-      <!-- Credentials Section -->
-      {#if appState.settings.provider !== 'pollinations'}
-        <div class="space-y-4 animate-in fade-in slide-in-from-top-2">
-          <div class="grid gap-2">
-            <Label class="text-xs py-2 text-muted-foreground">API Key</Label>
-            <Input 
-              type="password" 
-              bind:value={appState.settings.keys[appState.settings.provider]} 
-              placeholder="sk-..." 
-              class="font-mono text-sm"
-            />
-          </div>
-        </div>
-        <Separator />
-      {/if}
-
-      <!-- System Section -->
-      <div class="space-y-4">
-        <div class="grid gap-2">
-          <Label class="text-xs p-2 text-muted-foreground">System Prompt</Label>
-          <Input bind:value={appState.settings.systemPrompt} />
-        </div>
+        <p class="mt-5 mb-2 text-sm text-secondary">Model</p>
+        <Textfield bind:value={appState.settings.model[appState.settings.provider]} placeholder="Model Name" class="w-full text-on-surface p-2" type="text" />
       </div>
+
     </div>
-  </Dialog.Content>
-</Dialog.Root>
+    <div class="flex m-0.5 mt-7 h-fit bg-surface-container-low p-2 rounded-xl flex-col gap-1">
+      <span class="m-2 text-sm text-secondary">System Prompt</span>
+      <textarea class="resize-none p-3 text-on-surface h-24 m-1 border border-transparent focus:border-outline-variant outline-none bg-surface-container-high rounded-xl" bind:value={appState.settings.systemPrompt} placeholder="System Prompt" type="text"></textarea>
+    </div>
+
+
+  </main>
+{/if}

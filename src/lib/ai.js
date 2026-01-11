@@ -14,6 +14,10 @@ export async function sendMessage(userMessage) {
   const messages = rawMessages.slice(-MAX_HISTORY);
   const apiKey = keys[provider] || '';
 
+  if (appState.currentSession.messages.length <= 3 && appState.currentSession.title === 'New Chat') {
+    appState.generateTitle(appState.currentSessionId);
+  }
+
   try {
     if (provider === 'gemini') {
       const { GoogleGenerativeAI } = await import("@google/generative-ai");
@@ -40,28 +44,31 @@ export async function sendMessage(userMessage) {
     } 
     else {
       const endpoints = {
-        pollinations: 'https://text.pollinations.ai/openai',
+        huggingface: "https://router.huggingface.co/v1/chat/completions",
         groq: 'https://api.groq.com/openai/v1/chat/completions',
         cerebras: 'https://api.cerebras.ai/v1/chat/completions',
         sambanova: 'https://api.sambanova.ai/v1/chat/completions',
         openrouter: 'https://openrouter.ai/api/v1/chat/completions'
       };
 
-      const headers = { 'Content-Type': 'application/json' };
-      if (provider !== 'pollinations') headers['Authorization'] = `Bearer ${apiKey}`;
+      const headers = { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      };
 
       if (provider === 'openrouter') {
         headers['HTTP-Referer'] = 'http://localhost:5173';
-        headers['X-Title'] = 'Minimal AI';
+        headers['X-Title'] = 'AI-chat';
       }
+      let url = endpoints[provider];
 
       const payload = {
-        model,
+        model : model[provider],
         messages: messages.map(m => ({ role: m.role, content: m.content })),
-        stream: true
+        stream: true,
       };
 
-      const res = await fetch(endpoints[provider], {
+      const res = await fetch(url, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload)
