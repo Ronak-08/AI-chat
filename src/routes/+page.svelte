@@ -3,7 +3,7 @@
   import { sendMessage } from "$lib/ai.js";
   import { onMount } from "svelte";
   import Markdown from "$lib/components/Markdown.svelte";
-  import Button from "../../../svelte-libYou/dist/components/Button.svelte";
+  import { Button } from "svelte-libyou";
 
   import Send from "~icons/material-symbols/send-outline";
   import Refresh from "~icons/material-symbols/refresh";

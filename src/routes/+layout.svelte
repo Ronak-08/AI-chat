@@ -1,9 +1,7 @@
 <script>
 import './layout.css';
 import { appState } from '$lib/appState.svelte.js';
-import Button from '../../../svelte-libYou/dist/components/Button.svelte';
-import Sidebar from '../../../svelte-libYou/dist/components/Sidebar.svelte';
-import Ripple from '../../../svelte-libYou/dist/components/Ripple.svelte';
+import { Button, Sidebar, Ripple } from 'svelte-libyou';
 
 import EditSquare from '~icons/material-symbols/edit-square-outline';
 import SideBarOpen from "~icons/material-symbols/left-panel-open";

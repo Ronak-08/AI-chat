@@ -2,10 +2,10 @@
 import { appState } from "$lib/appState.svelte";
 let {open = $bindable(false)} = $props();
 import Close from "~icons/material-symbols/close";
-import Button from "../../../../svelte-libYou/dist/components/Button.svelte";
+import { Button, Textfield } from "svelte-libyou";
+
+import ThemeToggle from "./ThemeToggle.svelte";
 import { fade } from "svelte/transition";
-import Textfield from "../../../../svelte-libYou/dist/components/Textfield.svelte";
-    import ThemeToggle from "./ThemeToggle.svelte";
 
 let saveTimeout;
 
