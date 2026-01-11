@@ -119,7 +119,7 @@ class AppState {
         body: JSON.stringify({
           model: model,
           messages: messages,
-          max_tokens: 20, 
+          max_tokens: 200, 
           stream: false   
         })
       });

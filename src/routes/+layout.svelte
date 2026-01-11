@@ -100,7 +100,7 @@ let sessions = $derived(appState.sessions.filter(p => {
   <div class="flex flex-col w-full">
     <header class="flex bg-surface-container shadow-md border-b border-outline-variant/50 md:justify-center items-center justify-between p-2 md:py-3.5 px-3">
       <Button variant="text" class="md:hidden text-tertiary" onclick={() => show = !show} ><SideBarOpen /></Button>
-      <p class="text-xl max-w-[60vw] text-nowrap truncate md:text-2xl font-bold">{appState.isTemporary ? "Temporary chat" : getCurrentSessionTitle()}</p>
+      <p class="text-xl max-w-[60vw] text-nowrap truncate md:text-2xl md:font-medium md:opacity-90 font-bold">{appState.isTemporary ? "Temporary chat" : getCurrentSessionTitle()}</p>
       <Button class="size-9 md:hidden" onclick={() => appState.createNewSession()}>
         <EditSquare />
       </Button>
