@@ -34,7 +34,7 @@ function addKey(model, val) {
     </header>
 
     <div class="flex rounded-xl p-2 bg-surface-container-high items-center transition justify-between px-3 mx-3 mt-8">
-      <p class="pl-1 font-medium">Theme</p>
+      <p class="pl-1 pr-4 font-medium">Theme</p>
     <ThemeToggle />
     </div>
 
@@ -53,7 +53,7 @@ function addKey(model, val) {
       </div>
 
       <div class="flex mx-3 flex-col">
-        <p class="mt-4 mb-2 text-secondary text-sm font-medium">Api Key</p>
+        <p class="mt-4 mb-2 text-secondary text-sm font-normal">Api Key</p>
         <Textfield value={appState.settings.keys[appState.settings.provider] || ''} placeholder="sk-292..." class=" w-full text-on-surface p-2" oninput={(e) => addKey(appState.settings.provider, e.target.value)} type="text" />
 
         <p class="mt-5 mb-2 text-sm text-secondary">Model</p>
@@ -61,10 +61,14 @@ function addKey(model, val) {
       </div>
 
     </div>
-    <div class="flex m-0.5 mt-7 h-fit bg-surface-container-low p-2 rounded-xl flex-col gap-1">
-      <span class="m-2 text-sm text-secondary">System Prompt</span>
-      <textarea class="resize-none p-3 text-on-surface h-24 m-1 border border-transparent focus:border-outline-variant outline-none bg-surface-container-high rounded-xl" bind:value={appState.settings.systemPrompt} placeholder="System Prompt" type="text"></textarea>
+    <div class="flex m-0.5 mt-7 h-fit bg-surface-container-high p-2 rounded-xl flex-col gap-1">
+      <span class="m-2 mb-1 text-sm text-secondary">System Prompt</span>
+      <textarea class="resize-none p-3 text-on-surface h-24 m-1 border border-transparent focus:border-outline-variant outline-none bg-surface-container/80 rounded-xl" bind:value={appState.settings.systemPrompt} placeholder="System Prompt" type="text"></textarea>
     </div>
+
+    <footer class="flex mt-auto justify-center items-center">
+      <a class="text-sm text-on-surface-variant/60 transition active:text-primary" href="https://github.com/Ronak-08/AI-chat">Github</a>
+    </footer>
 
 
   </main>
