@@ -90,7 +90,7 @@ let sessions = $derived(appState.sessions.filter(p => {
       </div>
     </div>
 
-    <div class="shrink-0 mt-3 pt-2 border-t border-outline-variant/30">
+    <div class="shrink-0  opacity-50 backdrop-blur-2xl mt-3 pt-1 border-none">
       <Button onclick={() => {show = false; open = true}} class="size-10" variant="normal">
         <Setting />
       </Button>
@@ -98,13 +98,13 @@ let sessions = $derived(appState.sessions.filter(p => {
   </Sidebar>
 
   <div class="flex flex-col w-full">
-    <header class="flex bg-surface-container shadow-md border-b border-outline-variant/50 md:justify-center items-center justify-between p-2 md:py-3.5 px-3">
-      <Button variant="text" class="md:hidden text-tertiary" onclick={() => show = !show} ><SideBarOpen /></Button>
-      <p class="text-xl max-w-[60vw] text-nowrap truncate md:text-2xl md:font-medium md:opacity-90 font-bold">{appState.isTemporary ? "Temporary chat" : getCurrentSessionTitle()}</p>
-      <Button class="size-9 md:hidden" onclick={() => appState.createNewSession()}>
-        <EditSquare />
-      </Button>
-    </header>
+<header class="flex backdrop-blur-md bg-surface-container-low/50 shadow-sm border border-outline-variant/30 rounded-2xl mx-2 mt-2 md:justify-center items-center justify-between p-2 md:py-3.5 px-3">
+  <Button variant="text" class="md:hidden text-tertiary" onclick={() => show = !show} ><SideBarOpen /></Button>
+  <p class="text-xl max-w-[60vw] text-nowrap truncate md:text-2xl md:font-medium md:opacity-90 font-bold">{appState.isTemporary ? "Temporary chat" : getCurrentSessionTitle()}</p>
+  <Button class="size-9 md:hidden" onclick={() => appState.createNewSession()}>
+    <EditSquare />
+  </Button>
+</header>
     {@render children()}
   </div>
 

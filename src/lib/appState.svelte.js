@@ -10,13 +10,13 @@ class AppState {
     model: {
       huggingface: "openai/gpt-oss-120b:fastest",
       groq : "openai/gpt-oss-120b",
-      gemini: "gemini-3-flash-preview",
-      cerebras: "llama-3.3-70b",
+      gemini: "gemini-3.5-flash",
+      cerebras: "gemma-4-31b",
       sambanova: "DeepSeek-V3.1",
       openrouter: "google/gemma-3-27b-it:free",
     },
-    systemPrompt: 'You are a helpful AI assistant.'
-  });
+    systemPrompt: 'You are a helpful assistant that always writes mathematical expressions in LaTeX using *inline* dollar signs `$ … $` (or display mode `$​$…$​$` if a block is needed). Do **not** use the alternatives `\(` `\)` or `$$ … $$`. Whenever you need to present math, wrap it in the appropriate `$` delimiters.If a user asks for a LaTeX formula, respond with the formula enclosed in `$`',
+  })
 
   sessions = $state([]);
   currentSessionId = $state(null);

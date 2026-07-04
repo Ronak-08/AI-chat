@@ -53,11 +53,11 @@ function addKey(model, val) {
       </div>
 
       <div class="flex mx-3 flex-col">
-        <p class="mt-4 mb-2 text-secondary text-sm font-normal">Api Key</p>
-        <Textfield value={appState.settings.keys[appState.settings.provider] || ''} placeholder="sk-292..." class=" w-full text-on-surface p-2" oninput={(e) => addKey(appState.settings.provider, e.target.value)} type="text" />
+        <p class="mt-5 mb-2 text-secondary text-sm font-normal">Api Key</p>
+        <Textfield value={appState.settings.keys[appState.settings.provider] || ''} placeholder="sk-292..." class=" w-full text-on-surface-variant p-2" oninput={(e) => addKey(appState.settings.provider, e.target.value)} type="text" />
 
         <p class="mt-5 mb-2 text-sm text-secondary">Model</p>
-        <Textfield bind:value={appState.settings.model[appState.settings.provider]} placeholder="Model Name" class="w-full text-on-surface p-2" type="text" />
+        <Textfield bind:value={appState.settings.model[appState.settings.provider]} placeholder="Model Name" class="w-full text-on-surface-variant p-2" type="text" />
       </div>
 
     </div>

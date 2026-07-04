@@ -23,7 +23,7 @@ export async function sendMessage(userMessage) {
       const { GoogleGenerativeAI } = await import("@google/generative-ai");
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const genModel = genAI.getGenerativeModel({ model: model });
+      const genModel = genAI.getGenerativeModel({ model: model[provider] });
 
       const geminiHistory = messages
       .filter(m => m.role !== "system")
